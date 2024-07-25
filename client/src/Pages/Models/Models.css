@@ -1,0 +1,28 @@
+.our-model-header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+}
+
+.our-model-header h2 {
+    font-size: 40pt;
+    font-weight: 600;
+}
+
+.our-model-header p {
+    font-size: 12pt;
+    font-weight: 400;
+}
+
+.model-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}

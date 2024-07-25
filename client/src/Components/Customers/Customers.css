@@ -1,0 +1,99 @@
+.slide-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 150px;
+}
+
+.slide-body h2 {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.slide-body hr {
+    width: 8%;
+    height: 5px;
+    border: none;
+    background: #ff5724;
+    margin-bottom: 20px;
+}
+
+@keyframes scroll {
+    0%{
+        transform: translateX(0);
+    }
+    100%{
+        transform: translateX(calc(-250px * 7));
+    }
+}
+
+.slider {
+    height: 100px;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    
+}
+
+.slider .slide-track {
+    animation: scroll 40s linear infinite;
+    display: flex;
+    align-items: center;
+    width: calc(250px * 14);
+}
+
+.slider .slide {
+    display: flex;
+    justify-content: center; /* Center logos horizontally */
+    align-items: center; /* Center logos vertically */
+    height: 100px;
+    width: 250px;
+    
+}
+
+
+.slide #tesla {
+    height: 90px;
+    width: 250px;
+    
+    padding: 30px 20px;
+    
+}
+
+.slide #facebook {
+    height: 120px;
+    width: 250px;
+    
+    padding: 30px 20px;
+    
+}
+.slide #amazon {
+    height: 80px;
+    width: 250px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 15px 20px;
+}
+.slide #spacex {
+    height: 60px;
+    width: 280px;
+    padding: 11px 20px;
+    margin-bottom: 10px;
+}
+.slide #openai {
+    height: 80px;
+    width: 250px;
+    padding: 10px 20px;
+}
+.slide #netflix {
+    height: 70px;
+    width: 250px;
+    padding: 5px 20px;
+}
+.slide #google {
+    height: 70px;
+    width: 250px;
+    padding: 10px 20px;
+}
