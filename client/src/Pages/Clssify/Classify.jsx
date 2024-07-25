@@ -51,6 +51,7 @@ function Classify() {
         
             
             // console.log(image) // image in this state is base64
+            console.log(model)
             const response = await axios.post('http://localhost:5000/cls_upload-image', { image, model });
             console.log(response.data);
             setPrediction(response.data);

@@ -1218,9 +1218,12 @@ app = FastAPI()
 model_obj_path = "./model/obj/yolov8n.onnx"
 model_seg_path = "./model/seg/yolov8s-seg.onnx"
 
-class ImageRequest(BaseModel):
+class ClsImageRequest(BaseModel):
     image: str  # Base64 encoded image
     model: str
+
+class ObjSegImageRequest(BaseModel):
+    image: str  # Base64 encoded image
 
 # decode function
 def decode_base64(image_base64: bytes = None) -> Image:
@@ -1244,8 +1247,8 @@ async def hello():
 
 
 @app.post("/cls_predict", status_code=status.HTTP_200_OK)
-async def predict(request: ImageRequest):
-    print(request)
+async def predict(request: ClsImageRequest):
+    # print(request)
     model = request.model
     print(model)
 
@@ -1386,7 +1389,8 @@ async def predict(request: ImageRequest):
 
 
 @app.post("/obj_predict", status_code=200)
-async def predict(request: ImageRequest):
+async def predict(request: ObjSegImageRequest):
+    print('Here')
     try:
         obj_image = decode_base64(request.image)
     except Exception as e:
@@ -1474,7 +1478,7 @@ async def predict(request: ImageRequest):
     return JSONResponse(status_code=200, content=prediction)
 
 @app.post("/seg_predict", status_code=200)
-async def predict(request: ImageRequest):
+async def predict(request: ObjSegImageRequest):
 
     try:
         seg_image = decode_base64(request.image)
