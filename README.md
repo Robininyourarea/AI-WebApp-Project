@@ -25,7 +25,7 @@ Welcome to the AI Model Web Application! This project provides a platform where 
 
 1. Clone the repository:
   ```bash
-   git clone https://github.com/Robininyourarea/neuraltech-project.git](https://github.com/Robininyourarea/AI-WebApp-Project.git
+   git clone https://github.com/Robininyourarea/neuraltech-project.git
    cd your-repo-name
    ```
 
