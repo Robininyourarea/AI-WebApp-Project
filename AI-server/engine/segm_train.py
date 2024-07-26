@@ -2,7 +2,7 @@ from ultralytics import YOLO
 
 
 
-model = YOLO("yolov8s-seg.pt")
+model = YOLO("yolov8m-seg.pt")
 model.export(format="onnx")
 
 print('Export Succesfully')
