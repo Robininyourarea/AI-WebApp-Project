@@ -3,6 +3,7 @@ import axios from 'axios';
 import Nav from '../../Components/Navbar/Nav';
 import './Segment.css';
 import upload from '../../assets/upload.png';
+import barchart from '../../assets/bar-chart.png'
 import { Oval } from 'react-loader-spinner'
 
 function Segment() {
@@ -13,6 +14,10 @@ function Segment() {
     const [loading, setLoading] = useState(false);
     // const [objects, setObjects] = useState([]);
     // const [confidences, setConfidences] = useState([]);
+    const [model, setModel] = useState('');
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [placeHolder, setPlaceHolder] = useState('Select Model');
+    const [modelData, setModelData] = useState({ top1Accuracy: '-', top5Accuracy: '-', Parameters: '-' });
 
     const handleImageUpload = (event) => {
         console.log('this function triggerd')
@@ -36,7 +41,7 @@ function Segment() {
     };
 
     const handlePrediction = async () => {
-        console.log('Predict');
+        setPrediction(null);
         if (!image) {
             alert('Please upload an image first.')
             return;
@@ -48,7 +53,8 @@ function Segment() {
         
             
             // console.log(image) // image in this state is base64
-            const response = await axios.post('http://localhost:5000/seg_upload-image', { image });
+            console.log(model)
+            const response = await axios.post('http://localhost:5000/seg_upload-image', { image, model});
             // console.log(response.data.obj_image);
             // console.log(response.data.chart_image);
             setPrediction(response.data.seg_image);
@@ -77,56 +83,133 @@ function Segment() {
         handleDisplayClick();
     };
 
-    return(<div>
-                <Nav />
-                <h2 className='model-header'>Segmentation Model</h2>
-                <div className='upload-container' onClick={handleDisplayClick}>
-                    
-                    {imageUrl ? null : (<img src={upload} alt="upload-logo" className='upload-logo'/>)}
-                    {imageUrl ? (<img src={imageUrl} alt="uploaded-img" className='uploaded-img'/>) : 
-                                (<p>Click to upload your image here</p>)}
-                </div>
+    const handleModelSelect = (selectedModel) => {
+        setModel(selectedModel);
+        setPlaceHolder(selectedModel);
+        setModelData(models[selectedModel]);
+        setDropdownOpen(false);
+    }
 
-                <input 
-                    type="file" 
-                    id='fileInput'
-                    style={{display: 'none'}}
-                    onChange = {handleImageUpload}
-                />
-                {image && <button className='predict-button' onClick={handlePrediction}>Let's Predict</button>}
-                {image && <button className='upload-button' onClick={handleNewImageUpload}>Upload new image</button>}
-                {loading && (
-                <div className='loader-container'>
-                    <Oval
-                        height={80}
-                        width={80}
-                        color="#5A639C"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                        visible={true}
-                        ariaLabel='oval-loading'
-                        secondaryColor="#9B86BD"
-                        strokeWidth={2}
-                        strokeWidthSecondary={2}
-                    />
-                </div>
-                )}
-                {prediction && (
-                <div className='result-container'>
-                    
-                    
-                        <div className='predict-content'>
-                            <img src={`data:image/jpeg;base64,${prediction}`} alt="prediction-result" className='prediction-img' />
-                            
-                            {chartImage && (
-                                <img src={`data:image/png;base64,${chartImage}`} alt="chart-result" className='chart-img' />
-                            )}
+    const models = {
+        'yolov8n': { mAP: '30.5%', Speed: '96.1ms', Parameters: '3.4M' },
+        'yolov8s': { mAP: '36.8%', Speed: '155.7ms', Parameters: '11.8M' },
+    };
+
+    return  (<div>
+                <Nav />
+                <div className='segmentation-features'>
+                    {/* section 1 */}
+                    <div className='dashboard-body'>
+                        <div className='control-panel'>
+
+                            <div className='model-header'>
+                                <h2>Segmentation Model</h2>
+                            </div>
+
+                            <div className='model-dropdown-box'>
+                                
+                                <input 
+                                    type="text" 
+                                    className='textBox' 
+                                    placeholder={placeHolder}
+                                    readonly
+                                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                                />
+
+                                
+                                {dropdownOpen && (
+                                <div className='model-option'>
+                                    {Object.keys(models).map((modelKey) => (
+                                        <div key={modelKey} onClick={() => handleModelSelect(modelKey)}>
+                                            {modelKey}
+                                        </div>
+                                    ))}
+                                </div>
+                                )}
+                            </div>
+
+                            {!image && <button className='upload-button' onClick={handleDisplayClick}>Upload image</button>}
+                            {image && <button className='upload-button' onClick={handleNewImageUpload}>Upload new image</button>}
+                            {image && <button className='predict-button' onClick={handlePrediction}>Let's Predict</button>}
                             
                         </div>
+
+                        
+                        <div className='dashboard-container'>
+                            {Object.entries(modelData).map(([key, value], index) => (
+                                <div className='dashboard-card' key={index}>
+                                    <div className='dashboard-value'>{value}</div>
+                                    <div className='dashboard-title'>{key.replace(/([A-Z])/g, ' $1')}</div>
+                                </div>
+                            ))}
+                        </div>
+                            
+                    </div>
+                
+
+                    {/* section 2 */}
+                    <div className='prediction-body'>
+
+                        <div className='upload-box'>
+                            <div className='upload-container' onClick={handleDisplayClick}>
+                                
+                                {imageUrl ? null : (<img src={upload} alt="upload-logo" className='upload-logo'/>)}
+                                {imageUrl ? (<img src={imageUrl} alt="uploaded-img" className='uploaded-img'/>) : 
+                                            (<p>Click to upload your image here</p>)}
+                            </div>
+
+                            <input 
+                                type="file" 
+                                id='fileInput'
+                                style={{display: 'none'}}
+                                onChange = {handleImageUpload}
+                            />
+                        </div>
+                
+                        <div className='prediction-box'>
+
+                            {prediction ? (
+                                // <div className='result-container'>
                     
+                    
+                                    <div className='predict-content'>
+                                        <img src={`data:image/jpeg;base64,${prediction}`} alt="prediction-result" className='prediction-img' />
+                                
+                                        {chartImage && (
+                                        <img src={`data:image/png;base64,${chartImage}`} alt="chart-result" className='chart-img' />
+                                        )}
+                                
+                                    </div>
+                                // </div>
+                                ) : (
+                                <div className='unpredict'>
+                                    {loading ? (
+                                    <Oval
+                                        height={80}
+                                        width={80}
+                                        color="#5A639C"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                        visible={true}
+                                        ariaLabel='oval-loading'
+                                        secondaryColor="#9B86BD"
+                                        strokeWidth={2}
+                                        strokeWidthSecondary={2}
+                                    />
+                                    ) : (
+                                    <>
+                                        <img src={barchart} alt="upload-logo" className='upload-logo' />
+                                        <p>prediction</p>
+                                    </>
+                                    )}
+                                </div>
+                            )}
+
+                        </div>
+                    </div>
                 </div>
-            )}
-            </div>);
-}
+            </div>
+        )
+};
 
 export default Segment;

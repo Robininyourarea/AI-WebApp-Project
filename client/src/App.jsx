@@ -14,7 +14,7 @@ import Models from './Pages/Models/Models.jsx';
 import About from './Pages/About/About.jsx';
 import Contact from './Pages/Contact/Contact.jsx';
 
-import Object from './Pages/Object/Object.jsx';
+import Object from './Pages/Detect/Detect.jsx';
 import Classify from './Pages/Clssify/Classify.jsx';
 import Segment from './Pages/Segment/Segment.jsx';
 

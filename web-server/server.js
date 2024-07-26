@@ -116,14 +116,15 @@ app.post("/cls_upload-image", async (req, res) => {
 
 // object detection endpoint
 app.post("/obj_upload-image", async (req, res) => {
-    console.log('image has send to this endpoint');
-    console.log(req.body);
+    // console.log('image has send to this endpoint');
+    // console.log(req.body);
     // res.json({message: 'predict successful'})
     try {
-        const {image} = req.body;
+        const image = req.body.image;
+        const model = req.body.model;
         // Forward image to aiserver.py
         const aiserverURL = 'http://localhost:3000/obj_predict'
-        const response = await axios.post(aiserverURL, {image});
+        const response = await axios.post(aiserverURL, {image, model});
 
         // Return response from aiserver.py to the client
         res.json(response.data);
@@ -135,14 +136,15 @@ app.post("/obj_upload-image", async (req, res) => {
 
 // segment endpoint
 app.post("/seg_upload-image", async (req, res) => {
-    console.log('image has send to this endpoint');
-    console.log(req.body);
+    // console.log('image has send to this endpoint');
+    // console.log(req.body);
     // res.json({message: 'predict successful'})
     try {
-        const {image} = req.body;
+        const image = req.body.image;
+        const model = req.body.model;
         // Forward image to aiserver.py
         const aiserverURL = 'http://localhost:3000/seg_predict'
-        const response = await axios.post(aiserverURL, {image});
+        const response = await axios.post(aiserverURL, {image, model});
 
         // Return response from aiserver.py to the client
         res.json(response.data);

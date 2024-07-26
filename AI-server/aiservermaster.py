@@ -1216,14 +1216,11 @@ app = FastAPI()
 # ONNX model path
 # model_cls_path = "./model/cls/efficientnet_b0.onnx"
 model_obj_path = "./model/obj/yolov8n.onnx"
-model_seg_path = "./model/seg/yolov8s-seg.onnx"
+# model_seg_path = "./model/seg/yolov8s-seg.onnx"
 
-class ClsImageRequest(BaseModel):
+class ImageRequest(BaseModel):
     image: str  # Base64 encoded image
     model: str
-
-class ObjSegImageRequest(BaseModel):
-    image: str  # Base64 encoded image
 
 # decode function
 def decode_base64(image_base64: bytes = None) -> Image:
@@ -1247,7 +1244,7 @@ async def hello():
 
 
 @app.post("/cls_predict", status_code=status.HTTP_200_OK)
-async def predict(request: ClsImageRequest):
+async def predict(request: ImageRequest):
     # print(request)
     model = request.model
     print(model)
@@ -1389,13 +1386,20 @@ async def predict(request: ClsImageRequest):
 
 
 @app.post("/obj_predict", status_code=200)
-async def predict(request: ObjSegImageRequest):
-    print('Here')
+async def predict(request: ImageRequest):
+
+    model = request.model
+
     try:
         obj_image = decode_base64(request.image)
     except Exception as e:
         return {"predictions": "Fail to decode_base64 image", "error": str(e)}
 
+
+    if model == 'yolov8n':
+        model_obj_path = "./model/obj/yolov8n.onnx"
+    elif model == 'yolov8s':
+        model_obj_path = "./model/obj/yolov8s.onnx"
     # Load the exported ONNX model
     obj_model = YOLO(model_obj_path)
 
@@ -1478,14 +1482,21 @@ async def predict(request: ObjSegImageRequest):
     return JSONResponse(status_code=200, content=prediction)
 
 @app.post("/seg_predict", status_code=200)
-async def predict(request: ObjSegImageRequest):
+async def predict(request: ImageRequest):
+
+    model = request.model
+    # print(model)
 
     try:
         seg_image = decode_base64(request.image)
     except Exception as e:
         return {"predictions": "Fail to decode_base64 image", "error": str(e)}
     
-    
+    if model == 'yolov8n':
+        model_seg_path = "./model/seg/yolov8n-seg.onnx"
+    elif model == 'yolov8s':
+        model_seg_path = "./model/seg/yolov8s-seg.onnx"
+
     seg_image = seg_image.resize((640, 640))
     seg_img_resize_array = np.array(seg_image) 
 
@@ -1493,9 +1504,11 @@ async def predict(request: ObjSegImageRequest):
 
     
     # Load the exported ONNX model
+    print(model_seg_path)
     seg_model = YOLO(model_seg_path)
     # Predict
     results = seg_model(seg_image, conf = 0.28)
+    print(type(results[0].masks))
     class_tensor = results[0].boxes.cls.cpu().numpy()
     confidence_tensor = results[0].boxes.conf.cpu().numpy()
     position_tensor = (results[0].masks.to(torch.int32)).data.cpu().numpy()
@@ -1551,7 +1564,6 @@ async def predict(request: ObjSegImageRequest):
     
     wedges, texts, autotexts = ax.pie(sizes, labels=None, colors=pie_colors, autopct='%1.1f%%', startangle=0, pctdistance=1.1, textprops=dict(color="white", fontsize=12))
 
-# Draw a circle at the center to make it a donut
 
     # Draw a circle at the center to make it a donut
     inner_circle = plt.Circle((0, 0), 0.70, fc='white')  # Create a white circle at the center for the donut hole

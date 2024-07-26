@@ -53,7 +53,7 @@ function Classify() {
             // console.log(image) // image in this state is base64
             console.log(model)
             const response = await axios.post('http://localhost:5000/cls_upload-image', { image, model });
-            console.log(response.data);
+            // console.log(response.data);
             setPrediction(response.data);
 
         } catch (error) {
@@ -96,9 +96,11 @@ function Classify() {
                     {/* section 1 */}
                     <div className='dashboard-body'>
                         <div className='control-panel'>
+
                             <div className='model-header'>
                                 <h2>Classification Model</h2>
                             </div>
+
                             <div className='model-dropdown-box'>
                                 
                                 <input 
