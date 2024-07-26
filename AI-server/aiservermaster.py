@@ -1213,10 +1213,6 @@ except:
 
 app = FastAPI()
 
-# ONNX model path
-# model_cls_path = "./model/cls/efficientnet_b0.onnx"
-model_obj_path = "./model/obj/yolov8n.onnx"
-# model_seg_path = "./model/seg/yolov8s-seg.onnx"
 
 class ImageRequest(BaseModel):
     image: str  # Base64 encoded image
@@ -1243,6 +1239,8 @@ async def hello():
     return "Hi server is working now"
 
 
+
+# Endpoint for Classification tasks
 @app.post("/cls_predict", status_code=status.HTTP_200_OK)
 async def predict(request: ImageRequest):
     # print(request)
@@ -1322,69 +1320,9 @@ async def predict(request: ImageRequest):
     
     return JSONResponse(status_code = 200, content = prediction)
 
-# @app.post("/obj_predict", status_code=status.HTTP_200_OK)
-# async def predict(request: ImageRequest):
-#     try:
-#         obj_image = decode_base64(request.image) # PIL image
-#         # return {"type": type(image), "width": image.width, "height": image.height}
-#     except:
-#         return {"predictions": "Fail to decode_base64 image"}
-    
-#     # Load the exported ONNX model
-#     obj_model = YOLO(model_obj_path)
-
-#     # Predict
-#     results = obj_model(obj_image)
-
-#     obg_img_array = np.array(obj_image)
-#     obg_img_array_bgr = cv2.cvtColor(obg_img_array, cv2.COLOR_RGB2BGR)
-
-#     boxes = results[0].boxes.xyxy.cpu()
-#     confidences = results[0].boxes.conf.cpu().tolist()
-#     classes = results[0].boxes.cls.cpu().tolist()
-#     object_list = []
-#     for box, conf, cls in zip(boxes, confidences, classes):
-    
-#         box = list(map(int, box))
-    
-#         cls_name = classNames[int(cls)]
-
-#         object_list.append(cls_name)
-
-#         color = color_map[cls_name]
-#         # Prepare text
-#         label = f"{cls_name} {conf:.4f}"
-#         (text_width, text_height), baseline = cv2.getTextSize(label, cv2.FONT_ITALIC  , 0.5, 2)
-#         top_left = (box[0], box[1] - text_height - baseline)
-#         bottom_right = (box[0] + text_width, box[1])
-#         cv2.rectangle(obg_img_array_bgr, (box[0], box[1]), (box[2], box[3]), color, 2) # image, coor1, coor2, color, thick
-#         # Draw background rectangle
-#         cv2.rectangle(obg_img_array_bgr, top_left, bottom_right, color, thickness=cv2.FILLED)
-#         cv2.putText(obg_img_array_bgr, f"{cls_name} {conf:.4f}", (int(box[0]), int(box[1]) - 5), cv2.FONT_ITALIC  , 0.5, (255, 255, 255), 2)
-
-#     obg_img_array_rgb = cv2.cvtColor(obg_img_array_bgr, cv2.COLOR_BGR2RGB)
-
-#     # Convert the NumPy array back to a PIL image
-#     final_image = Image.fromarray(obg_img_array_rgb)
-
-#     # Encode the PIL image to base64
-#     encoded_image = encode_base64(final_image)
-
-#     prediction = {
-#         "obj_image": encoded_image,
-#         "objects": object_list,
-#         "conf": confidences
-#     }
-
-#     return JSONResponse(status_code = 200, content = prediction)
-
-# if __name__ == "__main__":
-#     # Run the FastAPI application using uvicorn server, listening on all available network interfaces
-#     uvicorn.run(app, host="0.0.0.0", port=3000)
 
 
-
-
+# Endpoint for Object Detection tasks
 @app.post("/obj_predict", status_code=200)
 async def predict(request: ImageRequest):
 
@@ -1481,11 +1419,13 @@ async def predict(request: ImageRequest):
 
     return JSONResponse(status_code=200, content=prediction)
 
+
+
+# Endpoint for Segmentation tasks
 @app.post("/seg_predict", status_code=200)
 async def predict(request: ImageRequest):
 
     model = request.model
-    # print(model)
 
     try:
         seg_image = decode_base64(request.image)
@@ -1500,9 +1440,6 @@ async def predict(request: ImageRequest):
     seg_image = seg_image.resize((640, 640))
     seg_img_resize_array = np.array(seg_image) 
 
-    
-
-    
     # Load the exported ONNX model
     print(model_seg_path)
     seg_model = YOLO(model_seg_path)

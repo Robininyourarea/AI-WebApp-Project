@@ -10,8 +10,17 @@ Welcome to the AI Model Web Application! This project provides a platform where 
 
 ## Demo
 
+### Model selection page
 ![Demo Image](assets/scrn15.png)
+
+### Classification Inference feature
 ![Demo Image](assets/scrn20.png)
+
+### Object Detection Inference feature
+![Demo Image](assets/scrn22.png)
+
+### Segmentation Inference feature
+![Demo Image](assets/scrn21.png)
 
 ## Getting Started
 
@@ -25,7 +34,7 @@ Welcome to the AI Model Web Application! This project provides a platform where 
 
 1. Clone the repository:
   ```bash
-   git clone https://github.com/Robininyourarea/neuraltech-project.git
+   git clone https://github.com/Robininyourarea/AI-WebApp-Project.git
    cd your-repo-name
    ```
 
