@@ -1,6 +1,6 @@
-# NeuralTech (AI Model Web Application)
+# NeuralTech Company (AI Model Web Application)
 
-Welcome to the AI Model Web Application! This project provides a platform where users can try out various types of AI models through a web interface. The application is designed to be user-friendly and accessible, making it easy for anyone to experiment with different AI technologies.
+Welcome to the AI Model Web Application! This project provides a platform where users can try out various types of AI models by using a web interface through the company website (NeuralTech Company). The application is designed to be user-friendly and accessible, making it easy for anyone to experiment with different AI technologies.
 
 ## Features
 
