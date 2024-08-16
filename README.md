@@ -12,36 +12,55 @@ Welcome to the AI Model Web Application! This project provides a platform where 
 
 In this project I have seperatef into 2 part
 
-- **Web pages part**: Web pages for customer who need to see the details of the AI company
 - **AI application part**: The AI applications that user can interact with including select the model and make the prediction
+- **Web pages part**: Web pages for customer who need to see the details of the AI company
 
-### Web pages part
-#### Home page
-![Demo Image](assets/scrn15.png)
-![Demo Image](assets/scrn15.png)
-![Demo Image](assets/scrn15.png)
+### 1.AI application part
 ![Demo Image](assets/scrn15.png)
 
-#### About page
-![Demo Image](assets/scrn15.png)
-![Demo Image](assets/scrn15.png)
-![Demo Image](assets/scrn15.png)
+### 1.1 Classification Inference feature
+model available below
+- **EfficientNet B0**
+- **EfficientNet B1**
+- **EfficientNet B2**
+- **EfficientNet B3**
 
-#### Contact Us page
-![Demo Image](assets/scrn15.png)
-
-
-### AI application part
-![Demo Image](assets/scrn15.png)
-
-### Classification Inference feature
 ![Demo Image](assets/scrn20.png)
 
-### Object Detection Inference feature
+### 1.2 Object Detection Inference feature
+model available below
+- **YOLOv8n**
+- **YOLOv8s**
+
 ![Demo Image](assets/scrn22.png)
 
-### Segmentation Inference feature
+### 1.3 Segmentation Inference feature
+model available below
+- **YOLOv8n**
+- **YOLOv8s**
+
 ![Demo Image](assets/scrn21.png)
+
+### 2.Web pages part
+
+#### 2.1 Login page
+![Demo Image](assets/scrn.33.png)
+
+#### 2.2 Home page
+![Demo Image](assets/scrn.23.png)
+![Demo Image](assets/scrn.24.png)
+![Demo Image](assets/scrn.25.png)
+![Demo Image](assets/scrn.26.png)
+![Demo Image](assets/scrn.27.png)
+
+#### 2.3 About page
+![Demo Image](assets/scrn.28.png)
+![Demo Image](assets/scrn.29.png)
+![Demo Image](assets/scrn.30.png)
+![Demo Image](assets/scrn.31.png)
+
+#### 2.4 Contact Us page
+![Demo Image](assets/scrn.32.png)
 
 ## Getting Started
 
@@ -50,6 +69,7 @@ In this project I have seperatef into 2 part
 - [Node.js](https://nodejs.org/)
 - [Python 3](https://www.python.org/)
 - [Git](https://git-scm.com/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 ### Installation
 
