@@ -8,9 +8,30 @@ Welcome to the AI Model Web Application! This project provides a platform where 
 - **User-Friendly Interface**: An intuitive web interface that allows users to interact with the AI models effortlessly.
 - **Real-Time Results**: Get instant feedback and results from the AI models.
 
-## Demo
+## Project Screenshots
 
-### Model selection page
+In this project I have seperatef into 2 part
+
+- **Web pages part**: Web pages for customer who need to see the details of the AI company
+- **AI application part**: The AI applications that user can interact with including select the model and make the prediction
+
+### Web pages part
+#### Home page
+![Demo Image](assets/scrn15.png)
+![Demo Image](assets/scrn15.png)
+![Demo Image](assets/scrn15.png)
+![Demo Image](assets/scrn15.png)
+
+#### About page
+![Demo Image](assets/scrn15.png)
+![Demo Image](assets/scrn15.png)
+![Demo Image](assets/scrn15.png)
+
+#### Contact Us page
+![Demo Image](assets/scrn15.png)
+
+
+### AI application part
 ![Demo Image](assets/scrn15.png)
 
 ### Classification Inference feature
